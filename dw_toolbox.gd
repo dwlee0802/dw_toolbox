@@ -73,3 +73,13 @@ static func ImportResources(path: String, filter: Callable = func do_nothing(_ta
 ## Returns a random vector that has x and y values inside the range inputted
 static func RandomVector(xmin: float, xmax: float, ymin: float = xmin, ymax: float = xmax) -> Vector2:
 	return Vector2(randf_range(xmin, xmax), randf_range(ymin, ymax))
+
+static func read_json(path: String):
+	var file = FileAccess.open(path, FileAccess.READ)
+	var json_data = []
+	if file:
+		var json_str: String = file.get_as_text()
+		json_data = JSON.parse_string(json_str)
+	else:
+			push_error("ERROR reading json text file")
+	return json_data
