@@ -83,3 +83,21 @@ static func read_json(path: String):
 	else:
 			push_error("ERROR reading json text file")
 	return json_data
+	
+## generates an array of vectors in the shape of a ring
+## use draw_polygon(arc, colors: PackedColorArray([color])) in draw() to show it on screen 
+static func generate_ring(inner_radius: float, outer_radius: float, start_angle, end_angle, point_count: int = 64):
+	var center: Vector2 = Vector2.ZERO
+	var arc = PackedVector2Array()
+	
+	for i in range(point_count + 1):
+		var angle: float = start_angle
+		angle += i * (end_angle - start_angle) / point_count
+		arc.push_back(center + outer_radius * Vector2(cos(angle), sin(angle)))
+		
+	for i in range(point_count, -1, -1):
+		var angle: float = start_angle
+		angle += i * (end_angle - start_angle) / point_count
+		arc.push_back(center + inner_radius * Vector2(cos(angle), sin(angle)))
+	
+	return arc
